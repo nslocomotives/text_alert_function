@@ -8,11 +8,7 @@ from twilio.rest import Client
 from google.cloud import secretmanager
 
 
-twilo_account_sid = getSecret('TWILO_ACCOUNT_SID')
-twilo_auth_token = getSecret('TWILO_AUTH_TOKEN')
-twilo_from = getSecret('TWILO_FROM')
 
-client = Client(twilo_account_sid, twilo_auth_token)
 
 logger = logging.getLogger('textAlert')
 logger.setLevel(logging.INFO)
@@ -30,18 +26,8 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-sleepTime = 10
-logger.info(' [*] Sleeping for %s seconds. ', sleepTime)
-time.sleep(30)
 
-logger.info(' [*] Connecting to server ...')
-url = getSecret('RABBITMQ_AMQP_URL')
-params = pika.URLParameters(url)
-connection = pika.BlockingConnection(params)
-channel = connection.channel()
-channel.queue_declare(queue=config('RABBITMQ_TASK_QUEUE'), durable=True)
 
-logger.info(' [*] Waiting for messages.')
 
 def getSecret(secret_name):
     response = assign_secret_variable(secret_name)
@@ -63,6 +49,9 @@ def assign_secret_variables( secret_id, project_id=config('GCP_PROJECT'), versio
     payload = response.payload.data.decode("UTF-8")
     return("Plaintext: {}".format(payload))
 
+def getSecret(secret_name):
+    response = assign_secret_variable(secret_name)
+    return response
 
 def send_text(recipiant, alert):
     message = client.messages.create(
@@ -90,8 +79,21 @@ def callback(ch, method, properties, body):
 def textAlert(event, context):
     print(event)
     print(context)
+    twilo_account_sid = getSecret('TWILO_ACCOUNT_SID')
+    twilo_auth_token = getSecret('TWILO_AUTH_TOKEN')
+    twilo_from = getSecret('TWILO_FROM')
 
+    client = Client(twilo_account_sid, twilo_auth_token)
 
-channel.basic_qos(prefetch_count=1)
-channel.basic_consume(queue=config('RABBITMQ_TASK_QUEUE'), on_message_callback=callback)
-channel.start_consuming()
+    logger.info(' [*] Connecting to server ...')
+    url = getSecret('RABBITMQ_AMQP_URL')
+    params = pika.URLParameters(url)
+    connection = pika.BlockingConnection(params)
+    channel = connection.channel()
+    channel.queue_declare(queue=config('RABBITMQ_TASK_QUEUE'), durable=True)
+
+    logger.info(' [*] Waiting for messages.')
+
+    channel.basic_qos(prefetch_count=1)
+    channel.basic_consume(queue=config('RABBITMQ_TASK_QUEUE'), on_message_callback=callback)
+    channel.start_consuming()
