@@ -33,7 +33,7 @@ def getSecret(secret_name):
     response = assign_secret_variable(secret_name)
     return response
 
-def assign_secret_variables( secret_id, project_id=config('GCP_PROJECT'), version_id='latest'):
+def assign_secret_variable( secret_id, project_id=config('GCP_PROJECT'), version_id='latest'):
     client = secretmanager.SecretManagerServiceClient()
     name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
         # Build the resource name of the secret version.
