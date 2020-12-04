@@ -44,10 +44,10 @@ channel.queue_declare(queue=config('RABBITMQ_TASK_QUEUE'), durable=True)
 logger.info(' [*] Waiting for messages.')
 
 def getSecret(secret_name):
-    response = assign_secret_variable(secret_id=secret_name)
+    response = assign_secret_variable(secret_name)
     return response
 
-def assign_secret_variables( project_id=config('GCP_PROJECT'), secret_id, version_id='latest'):
+def assign_secret_variables( secret_id, project_id=config('GCP_PROJECT'), version_id='latest'):
     client = secretmanager.SecretManagerServiceClient()
     name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
         # Build the resource name of the secret version.
