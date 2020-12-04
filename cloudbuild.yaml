@@ -1,0 +1,10 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - functions
+  - deploy
+  - binReminder
+  - --source=.
+  - --trigger-topic=binReminder
+  - --runtime=python37
+  - --region=europe-west1
