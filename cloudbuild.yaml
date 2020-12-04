@@ -3,8 +3,8 @@ steps:
   args:
   - functions
   - deploy
-  - binReminder
+  - textAlert
   - --source=.
-  - --trigger-topic=binReminder
+  - --trigger-topic=textAlert
   - --runtime=python37
   - --region=europe-west1
