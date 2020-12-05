@@ -47,7 +47,7 @@ def assign_secret_variable( secret_id, project_id=config('GCP_PROJECT'), version
     # WARNING: Do not print the secret in a production environment - this
     # function is to access the secret material.
     payload = response.payload.data.decode("UTF-8")
-    return("Plaintext: {}".format(payload))
+    return payload
 
 def getSecret(secret_name):
     response = assign_secret_variable(secret_name)
