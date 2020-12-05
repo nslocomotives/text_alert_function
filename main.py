@@ -1,4 +1,4 @@
-import pika
+import base64
 import time
 from decouple import config
 import json
@@ -7,9 +7,7 @@ import logging.handlers
 from twilio.rest import Client
 from google.cloud import secretmanager
 
-
-
-
+#setting up loggers
 logger = logging.getLogger('textAlert')
 logger.setLevel(logging.INFO)
 
@@ -26,12 +24,6 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-
-
-
-def getSecret(secret_name):
-    response = assign_secret_variable(secret_name)
-    return response
 
 def assign_secret_variable( secret_id, project_id=config('GCP_PROJECT'), version_id='latest'):
     client = secretmanager.SecretManagerServiceClient()
@@ -54,6 +46,11 @@ def getSecret(secret_name):
     return response
 
 def send_text(recipiant, alert):
+    twilo_account_sid = getSecret('TWILO_ACCOUNT_SID')
+    twilo_auth_token = getSecret('TWILO_AUTH_TOKEN')
+    twilo_from = getSecret('TWILO_FROM')
+    client = Client(twilo_account_sid, twilo_auth_token)
+
     message = client.messages.create(
                                 from_=twilo_from,
                                 body=alert,
@@ -62,10 +59,15 @@ def send_text(recipiant, alert):
     logger.info(message.sid)
 
 
-def callback(ch, method, properties, body):
-    logger.info(" [x] Received %s" % body)
-    data = body.decode()
-    data = json.loads(data)
+def textAlert(event, context):
+
+    if 'data' in event:
+        data = base64.b64decode(event['data']).decode('utf-8')
+        data = eval(data)
+    else:
+        data = False
+
+    logger.info(" [x] Received %s" % data)
     recipiants = data['recipiants']
     alert = data['alert']
     for recipiant in recipiants:
@@ -73,27 +75,3 @@ def callback(ch, method, properties, body):
         send_text(recipiant, alert)
 
     logger.info(" [x] Done")
-
-    ch.basic_ack(delivery_tag=method.delivery_tag)
-
-def textAlert(event, context):
-    print(event)
-    print(context)
-    twilo_account_sid = getSecret('TWILO_ACCOUNT_SID')
-    twilo_auth_token = getSecret('TWILO_AUTH_TOKEN')
-    twilo_from = getSecret('TWILO_FROM')
-
-    client = Client(twilo_account_sid, twilo_auth_token)
-
-    logger.info(' [*] Connecting to server ...')
-    url = getSecret('RABBITMQ_AMQP_URL')
-    params = pika.URLParameters(url)
-    connection = pika.BlockingConnection(params)
-    channel = connection.channel()
-    channel.queue_declare(queue=config('RABBITMQ_TASK_QUEUE'), durable=True)
-
-    logger.info(' [*] Waiting for messages.')
-
-    channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(queue=config('RABBITMQ_TASK_QUEUE'), on_message_callback=callback)
-    channel.start_consuming()
