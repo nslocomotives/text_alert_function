@@ -12,7 +12,7 @@ from google.cloud import secretmanager
 logger = logging.getLogger('textAlert')
 logger.setLevel(logging.INFO)
 
-fh = logging.handlers.RotatingFileHandler(config('LOGGING_LOCATION'), maxBytes=10240, backupCount=5)
+fh = logging.handlers.RotatingFileHandler(config('LOGGING_LOCATION', default='/var/log/textalert.log'), maxBytes=10240, backupCount=5)
 fh.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
