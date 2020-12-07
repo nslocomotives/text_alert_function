@@ -22,9 +22,11 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint `ls -R|grep .py$|xargs`
+
     -name: Analysing the coverage of unit tests
       run: |
         coverage run -m pytest
+        
     -name: Generating coverage reports
       run: |
         coverage report
