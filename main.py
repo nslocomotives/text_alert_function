@@ -71,6 +71,7 @@ def textalert(event, context):
         data = eval(data)
     else:
         data = False
+        # TODO: add something here to exit gracefully from the function with a nice log to indicate the fix
 
     logger.info(" [x] Received %s | %s", data, context)
     recipiants = data['recipiants']
