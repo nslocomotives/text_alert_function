@@ -3,7 +3,7 @@ steps:
   args:
   - functions
   - deploy
-  - textAlert
+  - textalert
   - --source=.
   - --trigger-topic=textAlert
   - --runtime=python37

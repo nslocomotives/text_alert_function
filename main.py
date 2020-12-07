@@ -63,7 +63,7 @@ def send_text(recipiant, alert):
     logger.info(message.sid)
 
 
-def textAlert(event, context):
+def textalert(event, context):
     """Fucntion called by google cloud message """
     if 'data' in event:
         data = base64.b64decode(event['data']).decode('utf-8')
