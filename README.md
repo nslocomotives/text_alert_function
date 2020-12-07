@@ -13,12 +13,7 @@ A [Google Cloud Function](https://cloud.google.com/functions/) that sends a mess
 1. Twilo
   * Setup a Twilio account if you don't have one please use my referral link here: [www.twilio.com](www.twilio.com/referral/OBoqCY)
   * Get your ACCOUNT SID, API Key & generate a Token: https://www.twilio.com/console
-  * Set environment variables for the API key and token:
-  ```console
-  $ export TRELLO_API_KEY=<your key here>
-  $ export TRELLO_TOKEN=<your token here>
-  $ export TRELLO_SECRET=<your oauth secret here>
-  ```
+
 2. Google Cloud Functions
   * If you've never used gcloud or deployed a Cloud Function before, run through the [Quickstart](https://cloud.google.com/functions/docs/quickstart#functions-update-install-gcloud-node8) to make sure you have a GCP project with the Cloud Functions API enabled before proceeding.
 
