@@ -8,3 +8,5 @@ steps:
   - --trigger-topic=textAlert
   - --runtime=python37
   - --region=europe-west1
+  env:
+  - 'LOGGING_LOCATION=/var/log/textalert.log'
