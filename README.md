@@ -72,7 +72,7 @@ This project is released under the ISC license, which can be found in [LICENSE](
 ## References
 * Google Cloud Functions
   * [Pub\Sub Triggers](https://cloud.google.com/functions/docs/calling/pubsub)
-  * [Using Secrets](https://cloud.google.com/functions/docs/env-var)
+  * [Using Secrets](https://cloud.google.com/secret-manager/docs/creating-and-accessing-secrets#secretmanager-create-secret-python)
   * [Testing Background Functions](https://cloud.google.com/functions/docs/testing/test-background)
   * [Testing and CI/CD](https://cloud.google.com/functions/docs/bestpractices/testing)
 * Twilio
