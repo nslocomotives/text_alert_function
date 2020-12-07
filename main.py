@@ -65,7 +65,7 @@ def textAlert(event, context):
     else:
         data = False
 
-    logger.info(" [x] Received %s" % data)
+    logger.info(" [x] Received %s | %s", data, context)
     recipiants = data['recipiants']
     alert = data['alert']
     for recipiant in recipiants:
