@@ -1,3 +1,6 @@
+"""This script is google cloud function that listens on a topic
+and sends a text alert based on the payload passed to it in json)"""
+
 import base64
 import logging
 import logging.handlers
@@ -24,6 +27,7 @@ logger.addHandler(ch)
 
 
 def assign_secret_variable( secret_id, project_id=config('GCP_PROJECT'), version_id='latest'):
+    """This funtion is used to fetch environement variables from google clouds seceret store"""
     client = secretmanager.SecretManagerServiceClient()
     name = f"projects/{project_id}/secrets/{secret_id}/versions/{version_id}"
         # Build the resource name of the secret version.
@@ -40,10 +44,12 @@ def assign_secret_variable( secret_id, project_id=config('GCP_PROJECT'), version
     return payload
 
 def getSecret(secret_name):
+    """ A wrapper for the secret variable assignement to perform a get"""
     response = assign_secret_variable(secret_name)
     return response
 
 def send_text(recipiant, alert):
+    """ the fuction to send data to the twilo API in order to deliver the text message """
     twilo_account_sid = getSecret('TWILO_ACCOUNT_SID')
     twilo_auth_token = getSecret('TWILO_AUTH_TOKEN')
     twilo_from = getSecret('TWILO_FROM')
@@ -58,9 +64,10 @@ def send_text(recipiant, alert):
 
 
 def textAlert(event, context):
-
+    """Fucntion called by google cloud message """
     if 'data' in event:
         data = base64.b64decode(event['data']).decode('utf-8')
+        # TODO: what is this eval doing?  there should be a better way to do this in python.
         data = eval(data)
     else:
         data = False
