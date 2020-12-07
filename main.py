@@ -12,7 +12,14 @@ from google.cloud import secretmanager
 logger = logging.getLogger('textAlert')
 logger.setLevel(logging.INFO)
 
-fh = logging.handlers.RotatingFileHandler(config('LOGGING_LOCATION', default='/var/log/textalert.log'), maxBytes=10240, backupCount=5)
+fh = logging.handlers.RotatingFileHandler(
+    config(
+        'LOGGING_LOCATION',
+        default='/var/log/textalert.log'
+        ),
+    maxBytes=10240,
+    backupCount=5
+    )
 fh.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -71,7 +78,8 @@ def textalert(event, context):
         data = eval(data)
     else:
         data = False
-        # TODO: add something here to exit gracefully from the function with a nice log to indicate the fix
+        # TODO: add something here to exit gracefully from the function
+        # with a nice log to indicate the fix
 
     logger.info(" [x] Received %s | %s", data, context)
     recipiants = data['recipiants']
