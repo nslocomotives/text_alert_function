@@ -43,16 +43,16 @@ def assign_secret_variable( secret_id, project_id=config('GCP_PROJECT'), version
     payload = response.payload.data.decode("UTF-8")
     return payload
 
-def getSecret(secret_name):
+def get_secret(secret_name):
     """ A wrapper for the secret variable assignement to perform a get"""
     response = assign_secret_variable(secret_name)
     return response
 
 def send_text(recipiant, alert):
     """ the fuction to send data to the twilo API in order to deliver the text message """
-    twilo_account_sid = getSecret('TWILO_ACCOUNT_SID')
-    twilo_auth_token = getSecret('TWILO_AUTH_TOKEN')
-    twilo_from = getSecret('TWILO_FROM')
+    twilo_account_sid = get_secret('TWILO_ACCOUNT_SID')
+    twilo_auth_token = get_secret('TWILO_AUTH_TOKEN')
+    twilo_from = get_secret('TWILO_FROM')
     client = Client(twilo_account_sid, twilo_auth_token)
 
     message = client.messages.create(
