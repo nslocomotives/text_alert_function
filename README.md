@@ -1,0 +1,81 @@
+# Text Alert Google Cloud Function using Twilio API
+
+add testing badge here...
+
+A [Google Cloud Function](https://cloud.google.com/functions/) that sends a message and a list of mobile numbers to [Twilio API](https://www.twilio.com/docs/usage/api).
+
+## Example format of how the function is called by the Google cloud message queue
+
+``{"alert":"Something happened!","recipiants":["+4412345678","+4423456789"]}``
+
+## Deploy
+
+1. Twilo
+  * Setup a Twilio account if you don't have one please use my referral link here: [www.twilio.com](www.twilio.com/referral/OBoqCY)
+  * Get your ACCOUNT SID, API Key & generate a Token: https://www.twilio.com/console
+  * Set environment variables for the API key and token:
+  ```console
+  $ export TRELLO_API_KEY=<your key here>
+  $ export TRELLO_TOKEN=<your token here>
+  $ export TRELLO_SECRET=<your oauth secret here>
+  ```
+2. Google Cloud Functions
+  * If you've never used gcloud or deployed a Cloud Function before, run through the [Quickstart](https://cloud.google.com/functions/docs/quickstart#functions-update-install-gcloud-node8) to make sure you have a GCP project with the Cloud Functions API enabled before proceeding.
+
+  * Create and populate the secrets in Google Cloud [Quickstart](https://cloud.google.com/secret-manager/docs/quickstart).  I would advise just adding them in the console for Google Cloud [secrets Manager](https://console.cloud.google.com/security/secret-manager), you will have to enable the API and then you are free to create the required secrets with the values from Twilio console.  
+
+  | secret name | Value |Notes|
+  |+------------|+------|+----|
+  |TWILIO_FROM  |<mobile number>| You will need to purchase a number to use and set it up|
+  |TWILIO_AUTH_TOKEN|<AUTH TOKEN>| Available from the Twilio dashboard usually hidden|
+  |TWILIO_ACCOUNT_SID|<ACCOUNT SID>| Available also from the Twilio Dashboard|
+
+
+  * Fork/clone this repo
+  * Within the repo, deploy this cloud function with:
+
+  ```console
+  $ gcloud functions deploy textalert \
+  --trigger-token=textAlert \
+  --runtime=python37 \
+  --source=. \
+  --project $(gcloud config list --format 'value(core.project)')
+  ```
+
+
+## Testing
+
+### Prerequisites
+* python37
+* pytest
+* pylint
+
+### Unit tests
+```console
+$ pip install pytest pylint
+$ pytest
+$ pylint main.py
+```
+
+### Ad-hoc tests
+
+```
+To be done..
+```
+
+## Contributing
+Contributions welcome! Please see [CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
+## License
+This project is released under the ISC license, which can be found in [LICENSE](LICENSE).
+
+## References
+* Google Cloud Functions
+  * [Pub\Sub Triggers](https://cloud.google.com/functions/docs/calling/pubsub)
+  * [Using Secrets](https://cloud.google.com/functions/docs/env-var)
+  * [Testing Background Functions](https://cloud.google.com/functions/docs/testing/test-background)
+  * [Testing and CI/CD](https://cloud.google.com/functions/docs/bestpractices/testing)
+* Twilio
+  * [Twilio API Keys](https://www.twilio.com/console)
+  * [Quickstart with Python](https://www.twilio.com/docs/sms/quickstart/pythons)
+  * [Twilio Automatic Testing](https://www.twilio.com/docs/sms/tutorials/automate-testing)
