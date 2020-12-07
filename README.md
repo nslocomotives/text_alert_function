@@ -25,10 +25,10 @@ A [Google Cloud Function](https://cloud.google.com/functions/) that sends a mess
   * Create and populate the secrets in Google Cloud [Quickstart](https://cloud.google.com/secret-manager/docs/quickstart).  I would advise just adding them in the console for Google Cloud [secrets Manager](https://console.cloud.google.com/security/secret-manager), you will have to enable the API and then you are free to create the required secrets with the values from Twilio console.  
 
   | secret name | Value |Notes|
-  |+------------|+------|+----|
-  |TWILIO_FROM  |<mobile number>| You will need to purchase a number to use and set it up|
-  |TWILIO_AUTH_TOKEN|<AUTH TOKEN>| Available from the Twilio dashboard usually hidden|
-  |TWILIO_ACCOUNT_SID|<ACCOUNT SID>| Available also from the Twilio Dashboard|
+  |:------------|:------|:----|
+  |TWILIO_FROM  |``<mobile number>``| You will need to purchase a number to use and set it up|
+  |TWILIO_AUTH_TOKEN|``<AUTH TOKEN>``| Available from the Twilio dashboard usually hidden|
+  |TWILIO_ACCOUNT_SID|``<ACCOUNT SID>``| Available also from the Twilio Dashboard|
 
 
   * Fork/clone this repo
