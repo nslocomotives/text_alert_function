@@ -1,9 +1,9 @@
 import base64
 import time
-from decouple import config
 import json
 import logging
 import logging.handlers
+from decouple import config
 from twilio.rest import Client
 from google.cloud import secretmanager
 
