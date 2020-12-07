@@ -1,4 +1,4 @@
-"""This script is google cloud function that listens on a topic
+twillio"""This script is google cloud function that listens on a topic
 and sends a text alert based on the payload passed to it in json)"""
 
 import base64
@@ -56,14 +56,14 @@ def get_secret(secret_name):
     return response
 
 def send_text(recipiant, alert):
-    """ the fuction to send data to the twilo API in order to deliver the text message """
-    twilo_account_sid = get_secret('TWILO_ACCOUNT_SID')
-    twilo_auth_token = get_secret('TWILO_AUTH_TOKEN')
-    twilo_from = get_secret('TWILO_FROM')
-    client = Client(twilo_account_sid, twilo_auth_token)
+    """ the fuction to send data to the twillio API in order to deliver the text message """
+    twillio_account_sid = get_secret('TWILIO_ACCOUNT_SID')
+    twillio_auth_token = get_secret('TWILIO_AUTH_TOKEN')
+    twillio_from = get_secret('TWILIO_FROM')
+    client = Client(twillio_account_sid, twillio_auth_token)
 
     message = client.messages.create(
-                                from_=twilo_from,
+                                from_=twillio_from,
                                 body=alert,
                                 to=recipiant
                                 )
