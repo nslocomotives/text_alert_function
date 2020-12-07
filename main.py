@@ -1,4 +1,4 @@
-twillio"""This script is google cloud function that listens on a topic
+"""This script is google cloud function that listens on a topic
 and sends a text alert based on the payload passed to it in json)"""
 
 import base64
