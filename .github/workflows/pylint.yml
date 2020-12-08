@@ -20,14 +20,14 @@ jobs:
         pip install pylint pytest coverage
     - name: Analysing the code with pylint
       run: |
-        pylint `ls|grep .py$|xargs` 2>&1 | tee lintreport.txt
+        pylint `ls|grep .py$|xargs` 2>&1 | tee report_lint.txt
     - name: Running pytest
       run: |
-        pytest 2>&1 | tee pytestreport.txt
+        pytest 2>&1 | tee report_pytest.txt
     - name: Running Coverage Reports
       run: |
         coverage run -m pytest
-        coverage report -m 2>&1 | tee coveragereport.txt
+        coverage report -m 2>&1 | tee report_coverage.txt
         coverage html
     - name: Running test Coverage Reports
       run: |
@@ -37,5 +37,6 @@ jobs:
       with:
         name: code-coverage-report
         path: htmlcov/*
+      with:
         name: text-reports
-        path: *report.txt
+        path: report*.txt
