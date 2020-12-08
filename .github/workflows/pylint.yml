@@ -7,6 +7,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      LOGGING_LOCATION: textalert.log
+      GCP_PROJECT: 123456789
+      TWILIO_FROM: +15005550006
+      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+      TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
