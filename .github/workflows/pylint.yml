@@ -41,11 +41,11 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         path: report_lint.txt
-
+    - name: Upload Coverage report for Arcives
       uses: actions/upload-artifact@v2
       with:
        path: report_coverage.txt
-
+    - name: Upload pytest report for Arcives
       uses: actions/upload-artifact@v2
       with:
         path: report_pytest.txt
