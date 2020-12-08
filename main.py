@@ -2,15 +2,17 @@
 and sends a text alert based on the payload passed to it in json)"""
 
 import base64
+import inspect
 import logging
 import logging.handlers
 from decouple import config
 from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException
 from google.cloud import secretmanager
 
 #setting up loggers
 logger = logging.getLogger('textAlert')
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 fh = logging.handlers.RotatingFileHandler(
     config(
@@ -55,23 +57,38 @@ def get_secret(secret_name):
     response = assign_secret_variable(secret_name)
     return response
 
-def send_text(recipiant, alert):
+def send_text(recipiant, payload):
     """ the fuction to send data to the twillio API in order to deliver the text message """
-    twillio_account_sid = get_secret('TWILIO_ACCOUNT_SID')
-    twillio_auth_token = get_secret('TWILIO_AUTH_TOKEN')
-    twillio_from = get_secret('TWILIO_FROM')
-    client = Client(twillio_account_sid, twillio_auth_token)
-
-    message = client.messages.create(
-                                from_=twillio_from,
-                                body=alert,
-                                to=recipiant
-                                )
-    logger.info(message.sid)
+    message = {}
+    client = Client(payload['account_sid'], payload['auth_token'])
+    try:
+        message = client.messages.create(
+                                    from_=payload['from'],
+                                    body=payload['alert'],
+                                    to=recipiant
+                                    )
+        if inspect.isclass(message) is True:
+            logger.info(message.sid)
+    except TwilioRestException as error:
+        logger.debug('Exeption thrown HTTP %s error : %s | for more info %s ', error.status, error.msg, error.uri)
+        message = {
+            'uri' : error.uri,
+            'status' : error.status,
+            'msg' : error.msg,
+            'code' : error.code,
+            'method' : error.method,
+            'details' : error.details,
+            'error' : 'Text not sent',
+            'recipiant': recipiant
+            }
+        logger.error(message['code'])
+        logger.error(message['error'])
+    return message
 
 
 def textalert(event, context):
     """Fucntion called by google cloud message """
+    payload = {}
     if 'data' in event:
         data = base64.b64decode(event['data']).decode('utf-8')
         # TODO: what is this eval doing?  there should be a better way to do this in python.
@@ -83,9 +100,12 @@ def textalert(event, context):
 
     logger.info(" [x] Received %s | %s", data, context)
     recipiants = data['recipiants']
-    alert = data['alert']
+    payload['alert'] = data['alert']
+    payload['account_sid'] = get_secret('TWILIO_ACCOUNT_SID')
+    payload['auth_token'] = get_secret('TWILIO_AUTH_TOKEN')
+    payload['from'] = get_secret('TWILIO_FROM')
     for recipiant in recipiants:
-        logger.info('texting %s : %s', recipiant, alert)
-        send_text(recipiant, alert)
-
+        logger.info('texting %s : %s', recipiant, payload['alert'])
+        result = send_text(recipiant, payload)
+        logger.debug(result)
     logger.info(" [x] Done")
