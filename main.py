@@ -70,7 +70,12 @@ def send_text(recipiant, payload):
         if inspect.isclass(message) is True:
             logger.info(message.sid)
     except TwilioRestException as error:
-        logger.debug('Exeption thrown HTTP %s error : %s | for more info %s ', error.status, error.msg, error.uri)
+        logger.debug(
+            'Exeption thrown HTTP %s error : %s | for more info %s ',
+            error.status,
+            error.msg,
+            error.uri
+            )
         message = {
             'uri' : error.uri,
             'status' : error.status,
