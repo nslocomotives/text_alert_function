@@ -27,14 +27,20 @@ jobs:
         pip install pylint pytest coverage
     - name: Analysing the code with pylint
       run: |
+        set -o pipefail
         pylint `ls|grep .py$|xargs` 2>&1 | tee report_lint.txt
+        set +o pipefail
     - name: Running pytest
       run: |
+        set -o pipefail
         pytest 2>&1 | tee report_pytest.txt
+        set +o pipefail
     - name: Running Coverage Reports
       run: |
         coverage run -m pytest
+        set -o pipefail
         coverage report -m 2>&1 | tee report_coverage.txt
+        set +o pipefail
         coverage html
     - name: Running test Coverage Reports
       run: |
@@ -42,17 +48,20 @@ jobs:
     - name: Build Artifacts for Arcives
       uses: actions/upload-artifact@v2
       with:
-        name: code-coverage-report
+        name: html-code-coverage-report
         path: htmlcov/*
     - name: Upload lint report for Arcives
       uses: actions/upload-artifact@v2
       with:
+        name: text-reports
         path: report_lint.txt
     - name: Upload Coverage report for Arcives
       uses: actions/upload-artifact@v2
       with:
+       name: text-reports
        path: report_coverage.txt
     - name: Upload pytest report for Arcives
       uses: actions/upload-artifact@v2
       with:
+        name: text-reports
         path: report_pytest.txt
