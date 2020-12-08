@@ -13,3 +13,5 @@ install:
   - pip install -r requirements.txt
 script:
   - pytest
+env:
+  - LOGGING_LOCATION=textalert.log
