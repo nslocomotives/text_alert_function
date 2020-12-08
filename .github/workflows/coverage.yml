@@ -10,6 +10,7 @@ jobs:
     env:
       LOGGING_LOCATION: textalert.log
       GCP_PROJECT: 123456789
+      TWILIO_FROM: +15005550006
 
     steps:
     - uses: actions/checkout@v2
