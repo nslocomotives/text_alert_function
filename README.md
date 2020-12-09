@@ -1,6 +1,7 @@
 # Text Alert Google Cloud Function using Twilio API
 
 [![Build Status](https://travis-ci.org/nslocomotives/text_alert_function.svg?branch=main)](https://travis-ci.org/nslocomotives/text_alert_function)
+![GitHub](https://img.shields.io/github/license/nslocomotives/text_alert_function)
 
 A [Google Cloud Function](https://cloud.google.com/functions/) that sends a message and a list of mobile numbers to [Twilio API](https://www.twilio.com/docs/usage/api).
 
