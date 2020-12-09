@@ -91,10 +91,12 @@ def send_text(recipiant, payload):
     return message
 
 def unpack_data():
+    """Function to unpack data from its encoded form"""
     result = ""
     return result
 
 def build_payload(alert):
+    """Function to build payload to pass to twilio"""
     payload = {}
     payload['alert'] = alert
     payload['account_sid'] = get_secret('TWILIO_ACCOUNT_SID')
