@@ -107,13 +107,15 @@ def build_payload(alert):
 
 def textalert(event, context):
     """Fucntion called by google cloud message """
+    message = ''
     if 'data' in event:
         data = base64.b64decode(event['data']).decode('utf-8')
         # TODO: what is this eval doing?  there should be a better way to do this in python. # pylint: disable=W0511
         data = eval(data)
     else:
         data = False
-        message = r'No data passed in event consumed, please check the producer is sending event[\'data\'\]'
+        message = r"No data passed in event consumed, "
+        message = message + r"please check the producer is sending event[\'data\'\]"
         logger.info(message)
         return message
 
@@ -125,3 +127,4 @@ def textalert(event, context):
         result = send_text(recipiant, payload)
         logger.debug(result)
     logger.info(" [x] Done")
+    return message
