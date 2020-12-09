@@ -113,8 +113,9 @@ def textalert(event, context):
         data = eval(data)
     else:
         data = False
-        logger.info('No data passed in event consumed, please check the producer is sending event[\'data\'\]')
-        return 
+        message = r'No data passed in event consumed, please check the producer is sending event[\'data\'\]'
+        logger.info(message)
+        return message
 
     logger.info(" [x] Received %s | %s", data, context)
     recipiants = data['recipiants']

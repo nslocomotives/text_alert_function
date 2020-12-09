@@ -1,5 +1,5 @@
 from decouple import config
-from main import send_text
+from main import send_text, textalert
 
 twilio_account_sid = config('TWILIO_ACCOUNT_SID')
 twilio_auth_token = config('TWILIO_AUTH_TOKEN')
@@ -124,4 +124,4 @@ def test_textalert_with_nodata() -> None:
     '''testing for clean exit with no data'''
     event = {}
     context = {}
-    textalert(event, context) == 'No data passed in event consumed, please check the producer is sending event[\'data\'\]'
+    textalert(event, context) == r'No data passed in event consumed, please check the producer is sending event[\'data\'\]'
