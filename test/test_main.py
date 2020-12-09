@@ -119,3 +119,9 @@ def test_send_text_from_phone_number_full_SMS_QUEUE() -> None:
     results = send_text(recipiant, payload)
     assert results['code'] == 21611
     assert results['error'] == "Text not sent"
+
+def test_textalert_with_nodata() -> None:
+    '''testing for clean exit with no data'''
+    event = {}
+    context = {}
+    textalert(event, context) == 'No data passed in event consumed, please check the producer is sending event[\'data\'\]'
