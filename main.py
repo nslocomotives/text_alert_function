@@ -90,10 +90,21 @@ def send_text(recipiant, payload):
         logger.error(message['error'])
     return message
 
+def unpack_data():
+    result = ""
+    return result
+
+def build_payload(alert):
+    payload = {}
+    payload['alert'] = alert
+    payload['account_sid'] = get_secret('TWILIO_ACCOUNT_SID')
+    payload['auth_token'] = get_secret('TWILIO_AUTH_TOKEN')
+    payload['from'] = get_secret('TWILIO_FROM')
+    return payload
+
 
 def textalert(event, context):
     """Fucntion called by google cloud message """
-    payload = {}
     if 'data' in event:
         data = base64.b64decode(event['data']).decode('utf-8')
         # TODO: what is this eval doing?  there should be a better way to do this in python. # pylint: disable=W0511
@@ -105,10 +116,7 @@ def textalert(event, context):
 
     logger.info(" [x] Received %s | %s", data, context)
     recipiants = data['recipiants']
-    payload['alert'] = data['alert']
-    payload['account_sid'] = get_secret('TWILIO_ACCOUNT_SID')
-    payload['auth_token'] = get_secret('TWILIO_AUTH_TOKEN')
-    payload['from'] = get_secret('TWILIO_FROM')
+    payload = build_payload(data['alert'])
     for recipiant in recipiants:
         logger.info('texting %s : %s', recipiant, payload['alert'])
         result = send_text(recipiant, payload)
