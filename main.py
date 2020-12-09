@@ -110,11 +110,11 @@ def textalert(event, context):
     if 'data' in event:
         data = base64.b64decode(event['data']).decode('utf-8')
         # TODO: what is this eval doing?  there should be a better way to do this in python. # pylint: disable=W0511
-        data = eval(data) # pylint: disable=W0123
+        data = eval(data)
     else:
         data = False
-        # TODO: add something here to exit gracefully from the function # pylint: disable=W0511
-        # with a nice log to indicate the fix
+        logger.info('No data passed in event consumed, please check the producer is sending event[\'data\'\]')
+        return 
 
     logger.info(" [x] Received %s | %s", data, context)
     recipiants = data['recipiants']
