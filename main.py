@@ -3,6 +3,7 @@ and sends a text alert based on the payload passed to it in json)"""
 
 import base64
 import inspect
+import ast
 import logging
 import logging.handlers
 from decouple import config
@@ -95,7 +96,7 @@ def unpack_data(data):
     result = ""
     result = base64.b64decode(data).decode('utf-8')
     # TODO: what is this eval doing?  there should be a better way to do this in python. # pylint: disable=W0511
-    result = eval(result) #pylint disable:W0123
+    result = ast.literal_eval(result) #pylint disable:W0123
     return result
 
 def build_payload(alert):
