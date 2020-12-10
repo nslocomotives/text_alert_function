@@ -1,6 +1,6 @@
 # Text Alert Google Cloud Function using Twilio API
 
-![Build Status](https://travis-ci.org/nslocomotives/text_alert_function.svg?branch=main)](https://travis-ci.org/nslocomotives/text_alert_function)
+[![Build Status](https://travis-ci.org/nslocomotives/text_alert_function.svg?branch=main)](https://travis-ci.org/nslocomotives/text_alert_function)
 ![GitHub](https://img.shields.io/github/license/nslocomotives/text_alert_function)
 ![code compliance workflow](https://github.com/nslocomotives/text_alert_function/workflows/code%20compliance%20workflow/badge.svg?branch=main)
 
