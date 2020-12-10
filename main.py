@@ -90,9 +90,12 @@ def send_text(recipiant, payload):
         logger.error(message['error'])
     return message
 
-def unpack_data():
+def unpack_data(data):
     """Function to unpack data from its encoded form"""
     result = ""
+    result = base64.b64decode(data).decode('utf-8')
+    # TODO: what is this eval doing?  there should be a better way to do this in python. # pylint: disable=W0511
+    result = eval(result) #pylint disable:W0123
     return result
 
 def build_payload(alert):
@@ -109,9 +112,7 @@ def textalert(event, context):
     """Fucntion called by google cloud message """
     message = ''
     if 'data' in event:
-        data = base64.b64decode(event['data']).decode('utf-8')
-        # TODO: what is this eval doing?  there should be a better way to do this in python. # pylint: disable=W0511
-        data = eval(data) #pylint disable:W0123
+        data = unpack_data(event['data'])
     else:
         data = False
         message = r"No data passed in event consumed, "
