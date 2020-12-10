@@ -1,5 +1,6 @@
+import base64
 from decouple import config
-from main import send_text, textalert
+from main import send_text, textalert, unpack_data
 
 twilio_account_sid = config('TWILIO_ACCOUNT_SID')
 twilio_auth_token = config('TWILIO_AUTH_TOKEN')
@@ -125,3 +126,11 @@ def test_textalert_with_nodata() -> None:
     event = {}
     context = {}
     textalert(event, context) == r'No data passed in event consumed, please check the producer is sending event[\'data\'\]'
+
+def test_unpack_data_with_encoded_data() -> None:
+    '''testing unpacking base64 encoded data - expected use case'''
+    message_data = {"alert":"Something happened!","recipiants":["+4412345678","+4423456789"]}
+    data = base64.b64encode(str(message_data).encode('utf8'))
+    unpacked_data = unpack_data(data)
+    assert unpacked_data['alert'] == message_data['alert']
+    assert unpacked_data['recipiants'] == message_data['recipiants']
