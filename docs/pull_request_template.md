@@ -25,7 +25,6 @@ A description of what steps someone could take to:
 # Checklist
 - [ ] Code contains tests for the feature/problem this PR is addressing
 - [ ] All tests pass
-- [ ] Your commits have been squashed/rebased/etc. for reviewer clarity
 
 
 # Additional Notes:
