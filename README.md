@@ -12,11 +12,11 @@ A [Google Cloud Function](https://cloud.google.com/functions/) that sends a mess
 
 ## Deploy
 
-1. Twilo
+### Twilo
   * Setup a Twilio account if you don't have one please use my referral link here: [www.twilio.com](www.twilio.com/referral/OBoqCY)
   * Get your ACCOUNT SID, API Key & generate a Token: https://www.twilio.com/console
 
-2. Google Cloud Functions
+### Google Cloud Functions
   * If you've never used gcloud or deployed a Cloud Function before, run through the [Quickstart](https://cloud.google.com/functions/docs/quickstart#functions-update-install-gcloud-node8) to make sure you have a GCP project with the Cloud Functions API enabled before proceeding.
 
   * Create and populate the secrets in Google Cloud [Quickstart](https://cloud.google.com/secret-manager/docs/quickstart).  I would advise just adding them in the console for Google Cloud [secrets Manager](https://console.cloud.google.com/security/secret-manager), you will have to enable the API and then you are free to create the required secrets with the values from Twilio console.  
