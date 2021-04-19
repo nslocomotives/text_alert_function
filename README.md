@@ -6,9 +6,17 @@
 
 A [Google Cloud Function](https://cloud.google.com/functions/) that sends a message and a list of mobile numbers to [Twilio API](https://www.twilio.com/docs/usage/api).
 
-## Example format of how the function is called by the Google cloud message queue
+## Example format of how the function is called by the Google cloud message queue using base64 encoding
+
+This will need to be bas 64 encoded I would use a site such as: https://www.base64encode.org/ and past the following into the encode field, dont forget to change the mobile nuber to the number you wish to recive the text from...
 
 ``{"alert":"Something happened!","recipiants":["+4412345678","+4423456789"]}``
+
+Then copy the encoded value and wrap it with the data variable name in json you should end up with something like this... (this is using the above phone numbers)
+
+``{"data":"eyJhbGVydCI6IlNvbWV0aGluZyBoYXBwZW5lZCEiLCJyZWNpcGlhbnRzIjpbIis0NDEyMzQ1Njc4IiwiKzQ0MjM0NTY3ODkiXX0="}``
+
+paste this into the testing field for the google cloud function and then hit the test, you should then get some usefull logging. 
 
 ## Deploy
 
