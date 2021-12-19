@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-python-dateutil = "==2.8.1"
+python-dateutil = "==2.8.2"
 python-decouple = "==3.5"
 requests = "==2.26.0"
 requests-oauthlib = "==1.3.0"
