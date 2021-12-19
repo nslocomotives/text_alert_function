@@ -65,7 +65,7 @@ $ pylint main.py
 ### Ad-hoc tests
 
 ```
-To be done..
+To be done...
 ```
 
 ## Contributing
