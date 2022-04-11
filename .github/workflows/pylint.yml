@@ -46,22 +46,22 @@ jobs:
       run: |
         coverage run -m pytest;coverage report -m; coverage html
     - name: Build Artifacts for Arcives
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: html-code-coverage-report
         path: htmlcov/*
     - name: Upload lint report for Arcives
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: text-reports
         path: report_lint.txt
     - name: Upload Coverage report for Arcives
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
        name: text-reports
        path: report_coverage.txt
     - name: Upload pytest report for Arcives
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: text-reports
         path: report_pytest.txt
